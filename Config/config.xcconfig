@@ -1,0 +1,18 @@
+//
+//  config.xcconfig
+//
+//  Created by JC on 2/8/14.
+//  Copyright (c) 2014 KptainO. All rights reserved.
+//
+
+BIN_xctest = TEST
+BIN_lib = LIB
+
+TESTTARGET_PATH = Tests
+LIBTARGET_PATH = Src
+
+TARGET_BIN = $(BIN_$(EXECUTABLE_PREFIX)$(WRAPPER_EXTENSION))
+TARGET_PATH = $($(TARGET_BIN)TARGET_PATH)
+
+GCC_PREFIX_HEADER = $(TARGET_PATH)/$(PRODUCT_NAME)-Prefix.pch
+INFOPLIST_FILE = $(TARGET_PATH)/$(PRODUCT_NAME)-Info.plist
