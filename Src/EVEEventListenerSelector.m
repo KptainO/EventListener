@@ -12,18 +12,20 @@
 
 // Private API
 @interface EVEEventListenerSelector ()
-@property(nonatomic, assign)SEL selector;
+@property(nonatomic, assign)BOOL useCapture;
+@property(nonatomic, assign)SEL  selector;
 @end
 
 @implementation EVEEventListenerSelector
 
 #pragma mark - Ctor/Dtor
 
-- (instancetype)initWithSelector:(SEL)selector {
+- (instancetype)initWithSelector:(SEL)selector useCapture:(BOOL)useCapture {
    if (!(self = [super init]))
       return nil;
 
    self.selector = selector;
+   self.useCapture = useCapture;
 
    return self;
 }
@@ -35,6 +37,10 @@
    void (*func)(id, SEL, EVEEvent *) = (void *)imp;
 
    func(event.target, self.selector, event);
+}
+
+- (NSUInteger)hash {
+   return [NSStringFromSelector(self.selector) hash] ^ self.useCapture ? 1234 : 5678;
 }
 
 #pragma mark - Protected methods

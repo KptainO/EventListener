@@ -10,13 +10,13 @@
 
 @interface EVEEventListenerSelector : NSObject<EVEEventListener>
 
-@property(nonatomic, assign)NSUInteger    priority;
-@property(nonatomic, assign)BOOL          useCapture;
+@property(nonatomic, assign)NSUInteger       priority;
+@property(nonatomic, assign, readonly)BOOL   useCapture;
 
-@property(nonatomic, assign, readonly)SEL selector;
+@property(nonatomic, assign, readonly)SEL    selector;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
-- (instancetype)initWithSelector:(SEL)selector;
+- (instancetype)initWithSelector:(SEL)selector useCapture:(BOOL)useCapture;
 
 @end
 

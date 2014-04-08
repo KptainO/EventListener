@@ -10,9 +10,11 @@
 
 @protocol EVEEventListener <NSObject>
 
-@property(nonatomic, assign)NSUInteger priority;
-@property(nonatomic, assign)BOOL       useCapture;
+@property(nonatomic, assign)NSUInteger       priority;
+@property(nonatomic, assign, readonly)BOOL   useCapture;
 
 - (void)handleEvent:(EVEEvent *)event;
+
+- (NSUInteger)hash;
 
 @end

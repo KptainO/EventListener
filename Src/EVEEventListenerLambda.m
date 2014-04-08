@@ -10,18 +10,20 @@
 
 // Private API
 @interface EVEEventListenerLambda ()
-@property(nonatomic, copy)EVEEventListenerBlock   block;
+@property(nonatomic, assign)BOOL                   useCapture;
+@property(nonatomic, copy)EVEEventListenerBlock    block;
 @end
 
 @implementation EVEEventListenerLambda
 
 #pragma mark - Ctor/Dtor
 
-- (id)initWithBlock:(EVEEventListenerBlock)block {
+- (id)initWithBlock:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture {
    if (!(self = [super init]))
       return nil;
 
    self.block = block;
+   self.useCapture = useCapture;
 
    return self;
 }
@@ -30,6 +32,10 @@
 
 - (void)handleEvent:(EVEEvent *)event {
    self.block(event);
+}
+
+- (NSUInteger)hash {
+   return [self.block hash] ^ self.useCapture ? 1234 : 5678;
 }
 
 #pragma mark - Protected methods

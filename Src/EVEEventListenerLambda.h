@@ -13,11 +13,11 @@ typedef void(^EVEEventListenerBlock)(EVEEvent *event);
 @interface EVEEventListenerLambda : NSObject<EVEEventListener>
 
 @property(nonatomic, assign)NSUInteger                      priority;
-@property(nonatomic, assign)BOOL                            useCapture;
+@property(nonatomic, assign, readonly)BOOL                  useCapture;
 @property(nonatomic, copy, readonly)EVEEventListenerBlock   block;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
-- (instancetype)initWithBlock:(EVEEventListenerBlock)block;
+- (instancetype)initWithBlock:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture;
 
 @end
 
