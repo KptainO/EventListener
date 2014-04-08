@@ -54,6 +54,10 @@
    return [self _search:object options:0] != NSNotFound;
 }
 
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {
+   return [self.list_ countByEnumeratingWithState:state objects:buffer count:len];
+}
+
 #pragma mark - Protected methods
 
 - (NSUInteger)_search:(id)object options:(NSBinarySearchingOptions)options {

@@ -10,7 +10,7 @@
  * Ordered List wrapping a NSArray object
  * This is used internally by EventListener project and not exposed to end-user
  */
-@interface EVEOrderedList : NSObject
+@interface EVEOrderedList : NSObject <NSFastEnumeration>
 
 + (id)new UNAVAILABLE_ATTRIBUTE;
 + (instancetype)orderedListWithComparator:(NSComparator)orderComparator duplicate:(BOOL)duplicate;
