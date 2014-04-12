@@ -91,7 +91,7 @@
    // Browse chain from top to bottom
    [event setValue:@(EVEEventPhaseCapturing) forKey:@"eventPhase"];
    for (id<EVEEventDispatcher> dispatcher in dispatchChain) {
-      [dispatcher dispatchEvent:event];
+           [dispatcher dispatchEvent:event];
    }
 
    [event setValue:@(EVEEventPhaseTarget) forKey:@"eventPhase"];
@@ -112,9 +112,14 @@
 
 - (void)_handleEvent:(EVEEvent *)event {
    EVEOrderedList *listeners = [self _listenersContainer:event.type];
-
+    BOOL isTargetPhase = (event.eventPhase == EVEEventPhaseTarget);
+    // Capturing phase => useCapture should be set to TRUE
+    // Bubbling phase => useCapture should be set to FALSE
+    BOOL shouldCapture = (event.eventPhase == EVEEventPhaseCapturing);
+    
    for (id<EVEEventListener> listener in listeners)
-      [listener handleEvent:event];
+      if (isTargetPhase || listener.useCapture == shouldCapture)
+          [listener handleEvent:event];
 }
 
 - (NSArray *)_dispatchChain {
