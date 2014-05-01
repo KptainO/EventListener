@@ -7,6 +7,7 @@
 //
 
 #import "EVEEvent.h"
+#import "EVEEvent+Friendly.h"
 
 // Private API
 @interface EVEEvent ()

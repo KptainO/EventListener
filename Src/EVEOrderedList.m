@@ -30,6 +30,7 @@
 
    self.orderComparator_ = orderComparator;
    self.allowDuplicates_ = duplicate;
+   self.list_ = [NSMutableArray new];
 
   return self;
 }
@@ -39,7 +40,7 @@
 - (void)add:(id)object {
    NSUInteger index = [self _search:object options:NSBinarySearchingInsertionIndex];
 
-   if (index == self.list_.count || self.list_[index] != object || self.allowDuplicates_)
+   if (index == self.list_.count || self.orderComparator_(self.list_[index], object) != NSOrderedSame || self.allowDuplicates_)
       [self insertObject:object inList_AtIndex:index];
 }
 
@@ -52,6 +53,10 @@
 
 - (BOOL)contains:(id)object {
    return [self _search:object options:0] != NSNotFound;
+}
+
+- (NSUInteger)count {
+   return [self.list_ count];
 }
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {

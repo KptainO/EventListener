@@ -8,6 +8,7 @@
 
 #import "EVEEventDispatcher.h"
 #import "EVEEvent.h"
+#import "EVEEvent+Friendly.h"
 #import "EVEEventListener.h"
 #import "EVEEventListenerSelector.h"
 #import "EVEOrderedList.h"
@@ -38,6 +39,7 @@
       return nil;
 
    self.target = target ?: self;
+   self.listeners_ = [NSMutableDictionary new];
 
    return self;
 }
@@ -85,27 +87,27 @@
    if (event.eventPhase != EVEEventPhaseNone)
       return [self _handleEvent:event];
 
-   [event setValue:self.target forKey:@"target"];
+   event.target = self.target;
 
    // Capture Phase
    // Browse chain from top to bottom
-   [event setValue:@(EVEEventPhaseCapturing) forKey:@"eventPhase"];
+   event.eventPhase = EVEEventPhaseCapturing;
    for (id<EVEEventDispatcher> dispatcher in dispatchChain) {
            [dispatcher dispatchEvent:event];
    }
 
-   [event setValue:@(EVEEventPhaseTarget) forKey:@"eventPhase"];
+   event.eventPhase = EVEEventPhaseTarget;
    [self _handleEvent:event];
 
    // Bubbling Phase
    // Browse chain from bottom to top
-   [event setValue:@(EVEEventPhaseBubbling) forKey:@"eventPhase"];
+   event.eventPhase = EVEEventPhaseBubbling;
    for (id<EVEEventDispatcher> dispatcher in [dispatchChain reverseObjectEnumerator]) {
       [dispatcher dispatchEvent:event];
    }
 
-   [event setValue:@(EVEEventPhaseNone) forKey:@"eventPhase"];
-   [event setValue:nil forKey:@"target"];
+   event.eventPhase = EVEEventPhaseNone;
+   event.target = nil;
 }
 
 #pragma mark - Protected methods
