@@ -22,6 +22,10 @@
 - (void)remove:(id)object;
 - (BOOL)contains:(id)object;
 
+- (NSUInteger)count;
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len;
+
 @end
 
 

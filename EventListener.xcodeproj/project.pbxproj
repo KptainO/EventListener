@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		490C2D531902D42100CF7FA6 /* EVEEventDispatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 490C2D521902D42100CF7FA6 /* EVEEventDispatcherTests.m */; };
 		498AF19518F1C81B005B27EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498AF19418F1C81B005B27EA /* Foundation.framework */; };
 		498AF1A318F1C81B005B27EA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498AF1A218F1C81B005B27EA /* XCTest.framework */; };
 		498AF1A418F1C81B005B27EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498AF19418F1C81B005B27EA /* Foundation.framework */; };
@@ -14,9 +15,14 @@
 		498AF1A918F1C81B005B27EA /* libEventListener.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 498AF19118F1C81B005B27EA /* libEventListener.a */; };
 		498AF1C418F1C900005B27EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 498AF1C018F1C900005B27EA /* InfoPlist.strings */; };
 		498AF1C518F1C900005B27EA /* EventListenerTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 498AF1C218F1C900005B27EA /* EventListenerTests-Info.plist */; };
-		498AF1C618F1C900005B27EA /* EventListenerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 498AF1C318F1C900005B27EA /* EventListenerTests.m */; };
 		498AF1CD18F1CB55005B27EA /* EVEEventDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 498AF1CC18F1CB55005B27EA /* EVEEventDispatcher.m */; };
 		498AF1D018F1CB68005B27EA /* EVEEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 498AF1CF18F1CB68005B27EA /* EVEEvent.m */; };
+		49D4DC7119058D0600E1AE89 /* EVEEvent+Friendly.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D4DC7019058D0600E1AE89 /* EVEEvent+Friendly.m */; };
+		49D62CDB18F31EC800001E61 /* EVEOrderedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D62CDA18F31EC800001E61 /* EVEOrderedList.m */; };
+		49D7602818F3592600D5D383 /* EVEEventListenerLambda.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D7602718F3592600D5D383 /* EVEEventListenerLambda.m */; };
+		49D7602B18F3593600D5D383 /* EVEEventListenerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D7602A18F3593600D5D383 /* EVEEventListenerSelector.m */; };
+		49DFE77A19129FDA00CD9553 /* EVEOrderedListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49DFE77919129FDA00CD9553 /* EVEOrderedListTests.m */; };
+		5AFD9CD089154B9FB9F491DB /* libPods-EventListenerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0A59B091ED4FB58BAB7460 /* libPods-EventListenerTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +48,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		490C2D521902D42100CF7FA6 /* EVEEventDispatcherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEventDispatcherTests.m; sourceTree = "<group>"; };
+		490C2D541902D47300CF7FA6 /* EventListenerTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EventListenerTests-Prefix.pch"; sourceTree = "<group>"; };
 		498AF19118F1C81B005B27EA /* libEventListener.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEventListener.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		498AF19418F1C81B005B27EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		498AF1A118F1C81B005B27EA /* EventListenerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EventListenerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,12 +58,23 @@
 		498AF1BB18F1C8F7005B27EA /* EventListener-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EventListener-Prefix.pch"; sourceTree = "<group>"; };
 		498AF1C118F1C900005B27EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		498AF1C218F1C900005B27EA /* EventListenerTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EventListenerTests-Info.plist"; sourceTree = "<group>"; };
-		498AF1C318F1C900005B27EA /* EventListenerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventListenerTests.m; sourceTree = "<group>"; };
 		498AF1C818F1C926005B27EA /* config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = config.xcconfig; sourceTree = "<group>"; };
 		498AF1CB18F1CB55005B27EA /* EVEEventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEventDispatcher.h; sourceTree = "<group>"; };
 		498AF1CC18F1CB55005B27EA /* EVEEventDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEventDispatcher.m; sourceTree = "<group>"; };
 		498AF1CE18F1CB68005B27EA /* EVEEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEvent.h; sourceTree = "<group>"; };
 		498AF1CF18F1CB68005B27EA /* EVEEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEvent.m; sourceTree = "<group>"; };
+		49D1547818F2F5FF00C89AC7 /* EVEEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEventListener.h; sourceTree = "<group>"; };
+		49D4DC6F19058D0600E1AE89 /* EVEEvent+Friendly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EVEEvent+Friendly.h"; sourceTree = "<group>"; };
+		49D4DC7019058D0600E1AE89 /* EVEEvent+Friendly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EVEEvent+Friendly.m"; sourceTree = "<group>"; };
+		49D62CD918F31EC800001E61 /* EVEOrderedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEOrderedList.h; sourceTree = "<group>"; };
+		49D62CDA18F31EC800001E61 /* EVEOrderedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEOrderedList.m; sourceTree = "<group>"; };
+		49D7602618F3592600D5D383 /* EVEEventListenerLambda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEventListenerLambda.h; sourceTree = "<group>"; };
+		49D7602718F3592600D5D383 /* EVEEventListenerLambda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEventListenerLambda.m; sourceTree = "<group>"; };
+		49D7602918F3593600D5D383 /* EVEEventListenerSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEventListenerSelector.h; sourceTree = "<group>"; };
+		49D7602A18F3593600D5D383 /* EVEEventListenerSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEventListenerSelector.m; sourceTree = "<group>"; };
+		49DFE77919129FDA00CD9553 /* EVEOrderedListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEOrderedListTests.m; sourceTree = "<group>"; };
+		5E39B2865450406C915D82F3 /* Pods-EventListenerTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventListenerTests.xcconfig"; path = "Pods/Pods-EventListenerTests.xcconfig"; sourceTree = "<group>"; };
+		AA0A59B091ED4FB58BAB7460 /* libPods-EventListenerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EventListenerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +94,7 @@
 				498AF1A318F1C81B005B27EA /* XCTest.framework in Frameworks */,
 				498AF1A618F1C81B005B27EA /* UIKit.framework in Frameworks */,
 				498AF1A418F1C81B005B27EA /* Foundation.framework in Frameworks */,
+				5AFD9CD089154B9FB9F491DB /* libPods-EventListenerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +109,7 @@
 				498AF19218F1C81B005B27EA /* Products */,
 				498AF1BA18F1C8F7005B27EA /* Src */,
 				498AF1BF18F1C900005B27EA /* Tests */,
+				5E39B2865450406C915D82F3 /* Pods-EventListenerTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +128,7 @@
 				498AF19418F1C81B005B27EA /* Foundation.framework */,
 				498AF1A218F1C81B005B27EA /* XCTest.framework */,
 				498AF1A518F1C81B005B27EA /* UIKit.framework */,
+				AA0A59B091ED4FB58BAB7460 /* libPods-EventListenerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,6 +141,15 @@
 				498AF1CC18F1CB55005B27EA /* EVEEventDispatcher.m */,
 				498AF1CE18F1CB68005B27EA /* EVEEvent.h */,
 				498AF1CF18F1CB68005B27EA /* EVEEvent.m */,
+				49D1547818F2F5FF00C89AC7 /* EVEEventListener.h */,
+				49D62CD918F31EC800001E61 /* EVEOrderedList.h */,
+				49D62CDA18F31EC800001E61 /* EVEOrderedList.m */,
+				49D7602618F3592600D5D383 /* EVEEventListenerLambda.h */,
+				49D7602718F3592600D5D383 /* EVEEventListenerLambda.m */,
+				49D7602918F3593600D5D383 /* EVEEventListenerSelector.h */,
+				49D7602A18F3593600D5D383 /* EVEEventListenerSelector.m */,
+				49D4DC6F19058D0600E1AE89 /* EVEEvent+Friendly.h */,
+				49D4DC7019058D0600E1AE89 /* EVEEvent+Friendly.m */,
 			);
 			path = Src;
 			sourceTree = "<group>";
@@ -128,7 +159,9 @@
 			children = (
 				498AF1C018F1C900005B27EA /* InfoPlist.strings */,
 				498AF1C218F1C900005B27EA /* EventListenerTests-Info.plist */,
-				498AF1C318F1C900005B27EA /* EventListenerTests.m */,
+				490C2D521902D42100CF7FA6 /* EVEEventDispatcherTests.m */,
+				490C2D541902D47300CF7FA6 /* EventListenerTests-Prefix.pch */,
+				49DFE77919129FDA00CD9553 /* EVEOrderedListTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -165,9 +198,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 498AF1B718F1C81B005B27EA /* Build configuration list for PBXNativeTarget "EventListenerTests" */;
 			buildPhases = (
+				40AADC43B2F949D98C1EB0D9 /* Check Pods Manifest.lock */,
 				498AF19D18F1C81B005B27EA /* Sources */,
 				498AF19E18F1C81B005B27EA /* Frameworks */,
 				498AF19F18F1C81B005B27EA /* Resources */,
+				09FBEB06EE9C4EBDA1752025 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,11 +253,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		09FBEB06EE9C4EBDA1752025 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-EventListenerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		40AADC43B2F949D98C1EB0D9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		498AF18D18F1C81B005B27EA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D4DC7119058D0600E1AE89 /* EVEEvent+Friendly.m in Sources */,
+				49D62CDB18F31EC800001E61 /* EVEOrderedList.m in Sources */,
+				49D7602818F3592600D5D383 /* EVEEventListenerLambda.m in Sources */,
+				49D7602B18F3593600D5D383 /* EVEEventListenerSelector.m in Sources */,
 				498AF1D018F1CB68005B27EA /* EVEEvent.m in Sources */,
 				498AF1CD18F1CB55005B27EA /* EVEEventDispatcher.m in Sources */,
 			);
@@ -232,7 +304,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				498AF1C618F1C900005B27EA /* EventListenerTests.m in Sources */,
+				49DFE77A19129FDA00CD9553 /* EVEOrderedListTests.m in Sources */,
+				490C2D531902D42100CF7FA6 /* EVEEventDispatcherTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +427,7 @@
 		};
 		498AF1B818F1C81B005B27EA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E39B2865450406C915D82F3 /* Pods-EventListenerTests.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -373,6 +447,7 @@
 		};
 		498AF1B918F1C81B005B27EA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E39B2865450406C915D82F3 /* Pods-EventListenerTests.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
