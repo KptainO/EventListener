@@ -101,9 +101,11 @@
 
    // Bubbling Phase
    // Browse chain from bottom to top
-   event.eventPhase = EVEEventPhaseBubbling;
-   for (id<EVEEventDispatcher> dispatcher in [dispatchChain reverseObjectEnumerator]) {
-      [dispatcher dispatchEvent:event];
+   if (event.bubbles)
+   {
+      event.eventPhase = EVEEventPhaseBubbling;
+      for (id<EVEEventDispatcher> dispatcher in [dispatchChain reverseObjectEnumerator])
+         [dispatcher dispatchEvent:event];
    }
 
    event.eventPhase = EVEEventPhaseNone;
