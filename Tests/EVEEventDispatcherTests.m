@@ -173,8 +173,18 @@ describe(@"dispatch", ^{
          [dispatcher dispatchEvent:event];
       });
 
-      it(@"should have event.capturePhase to EVEEventPhaseBubbling on bubbling phase", ^{
+      it(@"should have event.capturePhase to EVEEventPhaseBubbling on bubbling phase when event.bubbles", ^{
+         [event stub:@selector(bubbles) andReturn:theValue(YES)];
+
          [[event should] receive:@selector(setEventPhase:) withCount:1 arguments:theValue(EVEEventPhaseBubbling)];
+
+         [dispatcher dispatchEvent:event];
+      });
+
+      it(@"should NOT have event.capturePhase to EVEEventPhaseBubbling on bubbling phase when !event.bubbles", ^{
+         [event stub:@selector(bubbles) andReturn:theValue(NO)];
+         
+         [[event shouldNot] receive:@selector(setEventPhase:) withCount:1 arguments:theValue(EVEEventPhaseBubbling)];
 
          [dispatcher dispatchEvent:event];
       });

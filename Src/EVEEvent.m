@@ -14,6 +14,7 @@
 @property(nonatomic, strong)NSString                                    *type;
 @property(nonatomic, strong)id                                          target;
 @property(nonatomic, assign)EVEEventPhase                               eventPhase;
+@property(nonatomic, assign)BOOL                                        bubbles;
 @property(nonatomic, assign, getter = isStopPropagation)BOOL            stopPropagation;
 @property(nonatomic, assign, getter = isStopImmediatePropagation)BOOL   stopImmediatePropagation;
 @end
@@ -26,11 +27,20 @@
    return [[self.class alloc] init:type];
 }
 
++ (instancetype)event:(NSString *)type bubbles:(BOOL)bubbles {
+   return [[self.class alloc] init:type bubbles:bubbles];
+}
+
 - (instancetype)init:(NSString *)type {
+   return [self init:type bubbles:NO];
+}
+
+- (instancetype)init:(NSString *)type bubbles:(BOOL)bubbles {
   if (!(self = [super init]))
     return nil;
 
    self.type = type;
+   self.bubbles = bubbles;
 
   return self;
 }
