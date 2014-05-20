@@ -14,8 +14,6 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 
 @protocol EVEEventDispatcher<NSObject>
 
-@property(nonatomic, weak, readonly)id<EVEEventDispatcher>  target;
-
 - (void)addEventListener:(NSString *)type listener:(SEL)selector;
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture;
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture priority:(NSUInteger)priority;
