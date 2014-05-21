@@ -77,7 +77,7 @@ describe(@"dispatch", ^{
          [dispatcher dispatchEvent:event];
       });
 
-      describe(@"chain", ^{
+      describe(@"phase", ^{
          __block NSObject<EVEEventDispatcher> *parent;
 
          beforeEach(^{
@@ -87,69 +87,81 @@ describe(@"dispatch", ^{
             [[parent should] receive:@selector(nextDispatcher) andReturn:nil];
          });
 
-         it(@"should be invoked on bubbling phase if useCapture == NO", ^{
-            SEL selector = NSSelectorFromString(@"callback");
-
-            [parent addEventListener:@"event" listener:selector];
-
-            [event stub:@selector(type) andReturn:@"event"];
-
-            [parent stub:@selector(selector) withBlock:^id(NSArray *params) {
-               EVEEvent *event = params[0];
-
-               [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseCapturing)];
-               return nil;
-            }];
-
-            [dispatcher dispatchEvent:event];
-         });
-
-         it(@"should be invoked on target phase if event.target is self", ^{
-            SEL selector = NSSelectorFromString(@"callback");
-
-            [dispatcher addEventListener:@"event" listener:selector];
-            [event stub:@selector(type) andReturn:@"event"];
-
-            [dispatcherTarget stub:@selector(selector) withBlock:^id(NSArray *params) {
-               EVEEvent *event = params[0];
-
-               [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseTarget)];
-               return nil;
-            }];
-
-            [dispatcher dispatchEvent:event];
-         });
-
-         it(@"should be invoked on capture phase if useCapture == YES", ^{
-            SEL selector = NSSelectorFromString(@"callback");
-
-            [parent addEventListener:@"event" listener:selector useCapture:YES];
-
-            [event stub:@selector(type) andReturn:@"event"];
-
-            [parent stub:@selector(selector) withBlock:^id(NSArray *params) {
-               EVEEvent *event = params[0];
-
-               [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseBubbling)];
-               return nil;
-            }];
-            
-            [dispatcher dispatchEvent:event];
-         });
-
          it(@"should not be invoked if event.stopImmediatePropagation", ^{
 
          });
-         
-         it(@"should not be invoked on dispatcher chain if event.stopPropagation", ^{
-            
+
+         describe(@"capture", ^{
+            it(@"should be invoked if useCapture == YES", ^{
+               SEL selector = NSSelectorFromString(@"callback");
+
+               [parent addEventListener:@"event" listener:selector useCapture:YES];
+
+               [event stub:@selector(type) andReturn:@"event"];
+
+               [parent stub:@selector(selector) withBlock:^id(NSArray *params) {
+                  EVEEvent *event = params[0];
+
+                  [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseBubbling)];
+                  return nil;
+               }];
+               
+               [dispatcher dispatchEvent:event];
+            });
          });
 
-      });
+         describe(@"target", ^{
+            it(@"should be invoked if event.target is self", ^{
+               SEL selector = NSSelectorFromString(@"callback");
 
+               [dispatcher addEventListener:@"event" listener:selector];
+               [event stub:@selector(type) andReturn:@"event"];
 
-      it(@"TODO.preventDefault", ^{
+               [dispatcherTarget stub:@selector(selector) withBlock:^id(NSArray *params) {
+                  EVEEvent *event = params[0];
 
+                  [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseTarget)];
+                  return nil;
+               }];
+               
+               [dispatcher dispatchEvent:event];
+            });
+
+            it(@"should not be invoked if event.stopPropagation", ^{
+
+            });
+
+            it(@"should not be invoked if event.stopImmediatePropagation", ^{
+
+            });
+         });
+
+         describe(@"bubbling", ^{
+            it(@"should be invoked if useCapture == NO", ^{
+               SEL selector = NSSelectorFromString(@"callback");
+
+               [parent addEventListener:@"event" listener:selector];
+
+               [event stub:@selector(type) andReturn:@"event"];
+
+               [parent stub:@selector(selector) withBlock:^id(NSArray *params) {
+                  EVEEvent *event = params[0];
+
+                  [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseCapturing)];
+                  return nil;
+               }];
+               
+               [dispatcher dispatchEvent:event];
+            });
+
+            it(@"should not be invoked if event.stopPropagation", ^{
+
+            });
+
+            it(@"should not be invoked if event.stopImmediatePropagation", ^{
+
+            });
+         });
       });
    });
 
