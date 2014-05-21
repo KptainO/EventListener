@@ -13,7 +13,4 @@
 @property(nonatomic, strong)id                                         target;
 @property(nonatomic, assign)EVEEventPhase                              eventPhase;
 
-//- (void)setTarget:(id)target;
-//- (void)setEventPhase:(EVEEventPhase)eventPhase;
-
 @end
