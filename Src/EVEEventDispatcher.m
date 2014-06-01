@@ -96,12 +96,16 @@
            [dispatcher dispatchEvent:event];
    }
 
-   event.eventPhase = EVEEventPhaseTarget;
-   [self _handleEvent:event];
+   // Target Phase
+   if (!event.isImmediatePropagationStopped && !event.isPropagationStopped)
+   {
+      event.eventPhase = EVEEventPhaseTarget;
+      [self _handleEvent:event];
+   }
 
    // Bubbling Phase
    // Browse chain from bottom to top
-   if (event.bubbles)
+   if (event.bubbles && !event.isImmediatePropagationStopped && !event.isPropagationStopped)
    {
       event.eventPhase = EVEEventPhaseBubbling;
       for (id<EVEEventDispatcher> dispatcher in [dispatchChain reverseObjectEnumerator])
@@ -123,7 +127,12 @@
     
    for (id<EVEEventListener> listener in listeners)
       if (isTargetPhase || listener.useCapture == shouldCapture)
-          [listener handleEvent:event];
+      {
+         [listener handleEvent:event];
+
+         if (event.isImmediatePropagationStopped)
+            break;
+      }
 }
 
 - (NSArray *)_dispatchChain {
@@ -142,7 +151,8 @@
 
    if (!container)
    {
-      container = [EVEOrderedList orderedListWithComparator:^NSComparisonResult(id<EVEEventListener> obj1, id<EVEEventListener> obj2)
+      container = [EVEOrderedList orderedListWithComparator:
+                   ^NSComparisonResult(id<EVEEventListener> obj1, id<EVEEventListener> obj2)
                    {
                       return obj1.priority <= obj2.priority ? NSOrderedAscending : NSOrderedDescending;
                    }
