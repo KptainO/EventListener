@@ -79,16 +79,28 @@ describe(@"dispatch", ^{
 
       describe(@"phase", ^{
          __block NSObject<EVEEventDispatcher> *parent;
+         SEL parentEventSelector = NSSelectorFromString(@"handleEventFromParent");
+         SEL targetSelector1 = NSSelectorFromString(@"handleEvent1");
+         SEL targetSelector2 = NSSelectorFromString(@"handleEvent2");
 
          beforeEach(^{
             parent = [KWMock mockForProtocol:@protocol(EVEEventDispatcher)];
 
-            [[dispatcherTarget should] receive:@selector(nextDispatcher) andReturn:parent];
-            [[parent should] receive:@selector(nextDispatcher) andReturn:nil];
-         });
+            [event stub:@selector(type) andReturn:@"eventName"];
 
-         it(@"should not be invoked if event.stopImmediatePropagation", ^{
+            // Set parent as target parent
+            [dispatcherTarget stub:@selector(nextDispatcher) andReturn:parent];
+            [parent stub:@selector(nextDispatcher) andReturn:nil];
 
+            // Register default event selectors on target and its parent
+            [parent addEventListener:@"eventName" listener:parentEventSelector];
+            [parent stub:parentEventSelector];
+
+            [dispatcherTarget addEventListener:@"eventName" listener:targetSelector1];
+            [dispatcherTarget stub:targetSelector1];
+
+            [dispatcherTarget addEventListener:@"eventName" listener:targetSelector2];
+            [dispatcherTarget stub:targetSelector2];
          });
 
          describe(@"capture", ^{
@@ -106,6 +118,18 @@ describe(@"dispatch", ^{
                   return nil;
                }];
                
+               [dispatcher dispatchEvent:event];
+            });
+
+            it(@"should not be invoked if event.stopImmediatePropagation", ^{
+               [parent stub:parentEventSelector withBlock:^id(NSArray *params) {
+                  [event stopImmediatePropagation];
+
+                  return nil;
+               }];
+
+               [[parent shouldNot] receive:parentEventSelector];
+
                [dispatcher dispatchEvent:event];
             });
          });
@@ -129,10 +153,19 @@ describe(@"dispatch", ^{
 
             it(@"should not be invoked if event.stopPropagation", ^{
 
+
             });
 
             it(@"should not be invoked if event.stopImmediatePropagation", ^{
+               [dispatcherTarget stub:targetSelector1  withBlock:^id(NSArray *params) {
+                  [event stopImmediatePropagation];
 
+                  return nil;
+               }];
+
+               [[dispatcherTarget shouldNot] receive:targetSelector2];
+
+               [dispatcher dispatchEvent:event];
             });
          });
 
