@@ -33,10 +33,10 @@
 #pragma mark - Public methods
 
 - (void)handleEvent:(EVEEvent *)event {
-   IMP imp = [event.target methodForSelector:self.selector];
-   void (*func)(id, SEL, EVEEvent *) = (void *)imp;
-
-   func(event.target, self.selector, event);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [event.target performSelector:self.selector withObject:event];
+#pragma clang diagnostic pop
 }
 
 - (NSUInteger)hash {
