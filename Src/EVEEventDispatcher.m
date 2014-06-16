@@ -31,10 +31,10 @@
 }
 
 + (instancetype)eventDispatcher:(id<EVEEventDispatcher>)target {
-   return [[self.class alloc] init:target];
+   return [[[self class] alloc] initWithDispatcher:target];
 }
 
-- (instancetype)init:(id<EVEEventDispatcher>)target {
+- (instancetype)initWithDispatcher:(id<EVEEventDispatcher>)target {
    if (!(self = [super init]))
       return nil;
 
