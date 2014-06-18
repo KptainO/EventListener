@@ -35,7 +35,7 @@
 - (void)handleEvent:(EVEEvent *)event {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [event.target performSelector:self.selector withObject:event];
+    [event.currentTarget performSelector:self.selector withObject:event];
 #pragma clang diagnostic pop
 }
 

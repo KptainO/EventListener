@@ -124,15 +124,17 @@
     // Capturing phase => useCapture should be set to TRUE
     // Bubbling phase => useCapture should be set to FALSE
     BOOL shouldCapture = (event.eventPhase == EVEEventPhaseCapturing);
-    
-   for (id<EVEEventListener> listener in listeners)
-      if (isTargetPhase || listener.useCapture == shouldCapture)
-      {
-         [listener handleEvent:event];
 
-         if (event.isImmediatePropagationStopped)
-            break;
-      }
+    event.currentTarget = self.target;
+    for (id<EVEEventListener> listener in listeners)
+        if (isTargetPhase || listener.useCapture == shouldCapture)
+        {
+            [listener handleEvent:event];
+
+            if (event.isImmediatePropagationStopped)
+                break;
+        }
+    event.currentTarget = nil;
 }
 
 - (NSArray *)_dispatchChain {

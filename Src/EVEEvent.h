@@ -18,6 +18,7 @@ typedef enum EVEEventPhase : NSUInteger {
 
 @property(nonatomic, strong, readonly)NSString                                      *type;
 @property(nonatomic, strong, readonly)id                                            target;
+@property(nonatomic, strong, readonly)id                                            currentTarget;
 @property(nonatomic, assign, readonly)EVEEventPhase                                 eventPhase;
 @property(nonatomic, assign, readonly)BOOL                                          bubbles;
 @property(nonatomic, assign, readonly)BOOL                                          cancelable;

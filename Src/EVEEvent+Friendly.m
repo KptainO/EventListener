@@ -12,5 +12,6 @@
 
 @dynamic target;
 @dynamic eventPhase;
+@dynamic currentTarget;
 
 @end

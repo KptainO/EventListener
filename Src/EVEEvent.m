@@ -13,6 +13,7 @@
 @interface EVEEvent ()
 @property(nonatomic, strong)NSString                                    *type;
 @property(nonatomic, strong)id                                          target;
+@property(nonatomic, strong)id                                          currentTarget;
 @property(nonatomic, assign)EVEEventPhase                               eventPhase;
 @property(nonatomic, assign)BOOL                                        bubbles;
 @property(nonatomic, assign)BOOL                                        cancelable;
