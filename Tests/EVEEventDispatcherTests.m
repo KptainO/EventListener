@@ -78,7 +78,7 @@ describe(@"dispatch", ^{
 
        it(@"should not be invoked if event.stopImmediatePropagation", ^{
            SEL selector1 = NSSelectorFromString(@"callback1");
-           SEL selector2 = NSSelectorFromString(@"callback1");
+           SEL selector2 = NSSelectorFromString(@"callback2");
 
            [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseTarget)];
            [dispatcherTarget stub:selector1 withBlock:^id(NSArray *params) {
@@ -120,12 +120,13 @@ describe(@"dispatch", ^{
                 [dispatcher dispatchEvent:event];
             });
 
-//            it(@"should be skipped if event.stopPropagation called before dispatch", ^{
-//                [event stub:@selector(isPropagationStopped) andReturn:theValue(YES)];
-//
-//                [[event shouldNot] receive:@selector(setEventPhase:)];
-//                [dispatcher dispatchEvent:event];
-//            });
+            it(@"should be skipped if event.stopPropagation called before dispatch", ^{
+                [event stub:@selector(isPropagationStopped) andReturn:theValue(YES)];
+
+                [[dispatcherTarget shouldNot] receive:@selector(nextDispatcher)];
+
+                [dispatcher dispatchEvent:event];
+            });
          });
 
          describe(@"target", ^{
