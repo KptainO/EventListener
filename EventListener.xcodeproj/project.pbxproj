@@ -18,6 +18,7 @@
 		498AF1C418F1C900005B27EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 498AF1C018F1C900005B27EA /* InfoPlist.strings */; };
 		498AF1CD18F1CB55005B27EA /* EVEEventDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 498AF1CC18F1CB55005B27EA /* EVEEventDispatcher.m */; };
 		498AF1D018F1CB68005B27EA /* EVEEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 498AF1CF18F1CB68005B27EA /* EVEEvent.m */; };
+		49ABFC12195712D500EBD30A /* UIApplication+EventListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ABFC11195712D500EBD30A /* UIApplication+EventListener.m */; };
 		49D4DC7119058D0600E1AE89 /* EVEEvent+Friendly.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D4DC7019058D0600E1AE89 /* EVEEvent+Friendly.m */; };
 		49D62CDB18F31EC800001E61 /* EVEOrderedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D62CDA18F31EC800001E61 /* EVEOrderedList.m */; };
 		49D7602818F3592600D5D383 /* EVEEventListenerLambda.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D7602718F3592600D5D383 /* EVEEventListenerLambda.m */; };
@@ -69,6 +70,8 @@
 		498AF1CC18F1CB55005B27EA /* EVEEventDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEventDispatcher.m; sourceTree = "<group>"; };
 		498AF1CE18F1CB68005B27EA /* EVEEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEvent.h; sourceTree = "<group>"; };
 		498AF1CF18F1CB68005B27EA /* EVEEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEEvent.m; sourceTree = "<group>"; };
+		49ABFC10195712D500EBD30A /* UIApplication+EventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+EventListener.h"; sourceTree = "<group>"; };
+		49ABFC11195712D500EBD30A /* UIApplication+EventListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+EventListener.m"; sourceTree = "<group>"; };
 		49D1547818F2F5FF00C89AC7 /* EVEEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEEventListener.h; sourceTree = "<group>"; };
 		49D4DC6F19058D0600E1AE89 /* EVEEvent+Friendly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EVEEvent+Friendly.h"; sourceTree = "<group>"; };
 		49D4DC7019058D0600E1AE89 /* EVEEvent+Friendly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EVEEvent+Friendly.m"; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				490DB3011929350900FD61EC /* UIView+EventListener.m */,
 				490DB303192939EF00FD61EC /* UIViewController+EventListener.h */,
 				490DB304192939EF00FD61EC /* UIViewController+EventListener.m */,
+				49ABFC10195712D500EBD30A /* UIApplication+EventListener.h */,
+				49ABFC11195712D500EBD30A /* UIApplication+EventListener.m */,
 				49DBE5C3192BF5C700219B22 /* EVEUIKit.h */,
 			);
 			path = UIKit;
@@ -329,6 +334,7 @@
 				498AF1D018F1CB68005B27EA /* EVEEvent.m in Sources */,
 				490DB3021929350900FD61EC /* UIView+EventListener.m in Sources */,
 				490DB305192939EF00FD61EC /* UIViewController+EventListener.m in Sources */,
+				49ABFC12195712D500EBD30A /* UIApplication+EventListener.m in Sources */,
 				498AF1CD18F1CB55005B27EA /* EVEEventDispatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
