@@ -8,7 +8,7 @@
 
 #import "UIViewController+EventListener.h"
 
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 
 NSString *const UIViewControllerEventDispatcherAttrKey;
 
@@ -56,7 +56,7 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
 
    if (!dispatcher)
    {
-      dispatcher = [[EVEEventDispatcher alloc] init:self];
+      dispatcher = [[EVEEventDispatcher alloc] initWithDispatcher:self];
       self.eventDispatcher = dispatcher;
    }
 

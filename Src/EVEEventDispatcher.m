@@ -31,10 +31,10 @@
 }
 
 + (instancetype)eventDispatcher:(id<EVEEventDispatcher>)target {
-   return [[self.class alloc] init:target];
+   return [[[self class] alloc] initWithDispatcher:target];
 }
 
-- (instancetype)init:(id<EVEEventDispatcher>)target {
+- (instancetype)initWithDispatcher:(id<EVEEventDispatcher>)target {
    if (!(self = [super init]))
       return nil;
 
@@ -81,32 +81,20 @@
 }
 
 - (void)dispatchEvent:(EVEEvent *)event {
-   NSArray *dispatchChain = [self _dispatchChain];
+    if (event.isPropagationStopped)
+        return;
 
-   // Capturing or bubbling event already being handled: just execute listeners
-   if (event.eventPhase != EVEEventPhaseNone)
-      return [self _handleEvent:event];
+    // Capturing or bubbling event already being handled: just execute listeners
+    if (event.eventPhase != EVEEventPhaseNone)
+        return [self _handleEvent:event];
 
-   event.target = self.target;
+    NSArray *dispatchChain = [self _dispatchChain];
 
-   // Capture Phase
-   // Browse chain from top to bottom
-   event.eventPhase = EVEEventPhaseCapturing;
-   for (id<EVEEventDispatcher> dispatcher in dispatchChain) {
-           [dispatcher dispatchEvent:event];
-   }
+    event.target = self.target;
 
-   event.eventPhase = EVEEventPhaseTarget;
-   [self _handleEvent:event];
-
-   // Bubbling Phase
-   // Browse chain from bottom to top
-   if (event.bubbles)
-   {
-      event.eventPhase = EVEEventPhaseBubbling;
-      for (id<EVEEventDispatcher> dispatcher in [dispatchChain reverseObjectEnumerator])
-         [dispatcher dispatchEvent:event];
-   }
+    [self _dispatchCaptureEvent:event chain:dispatchChain];
+    [self _dispatchTargetEvent:event];
+    [self _dispatchBubbleEvent:event chain:dispatchChain];
 
    event.eventPhase = EVEEventPhaseNone;
    event.target = nil;
@@ -114,16 +102,49 @@
 
 #pragma mark - Protected methods
 
+- (void)_dispatchCaptureEvent:(EVEEvent *)event chain:(NSArray *)dispatchChain {
+    // Browse chain from top to bottom
+    event.eventPhase = EVEEventPhaseCapturing;
+    for (id<EVEEventDispatcher> dispatcher in dispatchChain) {
+        [dispatcher dispatchEvent:event];
+    }
+}
+
+- (void)_dispatchTargetEvent:(EVEEvent *)event {
+    if (!event.isImmediatePropagationStopped && !event.isPropagationStopped)
+    {
+        event.eventPhase = EVEEventPhaseTarget;
+        [self _handleEvent:event];
+    }
+}
+
+- (void)_dispatchBubbleEvent:(EVEEvent *)event chain:(NSArray *)dispatchChain {
+    // Browse chain from bottom to top
+    if (event.bubbles && !event.isImmediatePropagationStopped && !event.isPropagationStopped)
+    {
+        event.eventPhase = EVEEventPhaseBubbling;
+        for (id<EVEEventDispatcher> dispatcher in [dispatchChain reverseObjectEnumerator])
+            [dispatcher dispatchEvent:event];
+    }
+}
+
 - (void)_handleEvent:(EVEEvent *)event {
    EVEOrderedList *listeners = [self _listenersContainer:event.type];
     BOOL isTargetPhase = (event.eventPhase == EVEEventPhaseTarget);
     // Capturing phase => useCapture should be set to TRUE
     // Bubbling phase => useCapture should be set to FALSE
     BOOL shouldCapture = (event.eventPhase == EVEEventPhaseCapturing);
-    
-   for (id<EVEEventListener> listener in listeners)
-      if (isTargetPhase || listener.useCapture == shouldCapture)
-          [listener handleEvent:event];
+
+    event.currentTarget = self.target;
+    for (id<EVEEventListener> listener in listeners)
+        if (isTargetPhase || listener.useCapture == shouldCapture)
+        {
+            [listener handleEvent:event];
+
+            if (event.isImmediatePropagationStopped)
+                break;
+        }
+    event.currentTarget = nil;
 }
 
 - (NSArray *)_dispatchChain {
@@ -142,7 +163,8 @@
 
    if (!container)
    {
-      container = [EVEOrderedList orderedListWithComparator:^NSComparisonResult(id<EVEEventListener> obj1, id<EVEEventListener> obj2)
+      container = [EVEOrderedList orderedListWithComparator:
+                   ^NSComparisonResult(id<EVEEventListener> obj1, id<EVEEventListener> obj2)
                    {
                       return obj1.priority <= obj2.priority ? NSOrderedAscending : NSOrderedDescending;
                    }

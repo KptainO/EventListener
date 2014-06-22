@@ -27,7 +27,8 @@ describe(@"dispatch", ^{
    __block EVEEvent *event;
 
    beforeEach(^{
-      event = [EVEEvent new];
+       event = [EVEEvent new];
+       [event stub:@selector(type) andReturn:@"eventName"];
    });
 
    it(@"should retrieve dispatcher chain", ^{
@@ -54,10 +55,9 @@ describe(@"dispatch", ^{
          SEL selector1 = NSSelectorFromString(@"callback1");
          SEL selector2 = NSSelectorFromString(@"callback2");
 
-         [dispatcher addEventListener:@"customName" listener:selector1 useCapture:NO priority:1];
-         [dispatcher addEventListener:@"customName" listener:selector2 useCapture:NO priority:2];
-         [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseTarget)];
-         [event stub:@selector(type) andReturn:@"customName"];
+          [dispatcher addEventListener:@"eventName" listener:selector2 useCapture:NO priority:2];
+          [dispatcher addEventListener:@"eventName" listener:selector1 useCapture:NO priority:1];
+          [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseTarget)];
 
          [[dispatcherTarget should] receive:selector1];
          [[dispatcherTarget should] receive:selector2];
@@ -70,86 +70,121 @@ describe(@"dispatch", ^{
          SEL selector = NSSelectorFromString(@"callback");
 
          [dispatcher addEventListener:@"wrongEvent" listener:selector useCapture:NO priority:1];
-         [event stub:@selector(type) andReturn:@"customName"];
 
          [[dispatcherTarget shouldNot] receive:selector];
 
          [dispatcher dispatchEvent:event];
       });
 
-      describe(@"chain", ^{
-         __block NSObject<EVEEventDispatcher> *parent;
+       it(@"should not be invoked if event.stopImmediatePropagation", ^{
+           SEL selector1 = NSSelectorFromString(@"callback1");
+           SEL selector2 = NSSelectorFromString(@"callback2");
 
-         beforeEach(^{
-            parent = [KWMock mockForProtocol:@protocol(EVEEventDispatcher)];
-
-            [[dispatcherTarget should] receive:@selector(nextDispatcher) andReturn:parent];
-            [[parent should] receive:@selector(nextDispatcher) andReturn:nil];
-         });
-
-         it(@"should be invoked on bubbling phase if useCapture == NO", ^{
-            SEL selector = NSSelectorFromString(@"callback");
-
-            [parent addEventListener:@"event" listener:selector];
-
-            [event stub:@selector(type) andReturn:@"event"];
-
-            [parent stub:@selector(selector) withBlock:^id(NSArray *params) {
-               EVEEvent *event = params[0];
-
-               [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseCapturing)];
+           [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseTarget)];
+           [dispatcherTarget stub:selector1 withBlock:^id(NSArray *params) {
+               [event stub:@selector(isImmediatePropagationStopped) andReturn:theValue(YES)];
                return nil;
-            }];
+           }];
 
-            [dispatcher dispatchEvent:event];
+           [dispatcher addEventListener:@"eventName" listener:selector1];
+           [dispatcher addEventListener:@"eventName" listener:selector2];
+
+           [[dispatcherTarget should] receive:selector1];
+           [[dispatcherTarget shouldNot] receive:selector2];
+
+           [dispatcher dispatchEvent:event];
+       });
+
+      describe(@"phase", ^{
+          __block NSObject<EVEEventDispatcher> *parent;
+
+          beforeEach(^{
+              parent = [KWMock mockForProtocol:@protocol(EVEEventDispatcher)];
+
+              [dispatcherTarget stub:@selector(nextDispatcher) andReturn:parent];
+              [parent stub:@selector(nextDispatcher) andReturn:nil];
+              [parent stub:@selector(dispatchEvent:)];
+          });
+
+         describe(@"capture", ^{
+            it(@"should be invoked if useCapture == YES", ^{
+                SEL selector = NSSelectorFromString(@"callback");
+
+                [dispatcher addEventListener:@"eventName" listener:selector useCapture:YES];
+                [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseCapturing)];
+
+                // We setted phase to Capturing
+                // So if target is receiving the desired it means it was trigerred while into Capturing phase
+                [[dispatcherTarget should] receive:selector];
+
+                [dispatcher dispatchEvent:event];
+            });
+
+            it(@"should be skipped if event.stopPropagation called before dispatch", ^{
+                [event stub:@selector(isPropagationStopped) andReturn:theValue(YES)];
+
+                [[dispatcherTarget shouldNot] receive:@selector(nextDispatcher)];
+
+                [dispatcher dispatchEvent:event];
+            });
          });
 
-         it(@"should be invoked on target phase if event.target is self", ^{
-            SEL selector = NSSelectorFromString(@"callback");
+         describe(@"target", ^{
+            it(@"should be invoked if event.target is self", ^{
+                SEL selector = NSSelectorFromString(@"callback");
 
-            [dispatcher addEventListener:@"event" listener:selector];
-            [event stub:@selector(type) andReturn:@"event"];
+                [dispatcher addEventListener:@"eventName" listener:selector useCapture:NO priority:1];
+                [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseTarget)];
 
-            [dispatcherTarget stub:@selector(selector) withBlock:^id(NSArray *params) {
-               EVEEvent *event = params[0];
+                [[dispatcherTarget should] receive:selector];
 
-               [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseTarget)];
-               return nil;
-            }];
+                [dispatcher dispatchEvent:event];
+            });
 
-            [dispatcher dispatchEvent:event];
+            it(@"should be skipped if event.stopPropagation", ^{
+                [parent stub:@selector(dispatchEvent:) withBlock:^id(NSArray *params) {
+                    [event stub:@selector(isPropagationStopped) andReturn:theValue(YES)];
+                    return nil;
+                }];
+
+                [[parent should] receive:@selector(dispatchEvent:)];
+                [[event shouldNot] receive:@selector(setEventPhase:) withArguments:theValue(EVEEventPhaseTarget), nil];
+                [[event shouldNot] receive:@selector(setEventPhase:) withArguments:theValue(EVEEventPhaseBubbling), nil];
+
+                [dispatcher dispatchEvent:event];
+            });
          });
 
-         it(@"should be invoked on capture phase if useCapture == YES", ^{
-            SEL selector = NSSelectorFromString(@"callback");
+         describe(@"bubbling", ^{
+            it(@"should be invoked if useCapture == NO", ^{
+                SEL selector = NSSelectorFromString(@"callback:");
 
-            [parent addEventListener:@"event" listener:selector useCapture:YES];
+                [dispatcher addEventListener:@"eventName" listener:selector];
+                [event stub:@selector(eventPhase) andReturn:theValue(EVEEventPhaseBubbling)];
 
-            [event stub:@selector(type) andReturn:@"event"];
+                // We setted phase to Bubbling
+                // So if target is receiving the desired it means it was trigerred while into Bubbling phase
+                [[dispatcherTarget should] receive:selector];
 
-            [parent stub:@selector(selector) withBlock:^id(NSArray *params) {
-               EVEEvent *event = params[0];
+                [dispatcher dispatchEvent:event];
+            });
 
-               [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseBubbling)];
-               return nil;
-            }];
-            
-            [dispatcher dispatchEvent:event];
+            it(@"should not be invoked if event.stopPropagation", ^{
+                SEL selector = NSSelectorFromString(@"callback");
+
+                [dispatcherTarget stub:selector withBlock:^id(NSArray *params) {
+                    [event stub:@selector(isPropagationStopped) andReturn:theValue(YES)];
+
+                    return nil;
+                }];
+                [dispatcher addEventListener:@"eventName" listener:selector];
+
+                [[dispatcherTarget should] receive:selector];
+                [[event shouldNot] receive:@selector(setEventPhase:) withArguments:theValue(EVEEventPhaseBubbling), nil];
+
+                [dispatcher dispatchEvent:event];
+            });
          });
-
-         it(@"should not be invoked if event.stopImmediatePropagation", ^{
-
-         });
-         
-         it(@"should not be invoked on dispatcher chain if event.stopPropagation", ^{
-            
-         });
-
-      });
-
-
-      it(@"TODO.preventDefault", ^{
-
       });
    });
 

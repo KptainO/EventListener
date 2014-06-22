@@ -11,6 +11,6 @@
 @interface EVEEvent (Friendly)
 
 @property(nonatomic, strong)id                                         target;
+@property(nonatomic, strong)id                                         currentTarget;
 @property(nonatomic, assign)EVEEventPhase                              eventPhase;
-
 @end

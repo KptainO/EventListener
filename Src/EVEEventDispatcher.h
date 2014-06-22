@@ -34,7 +34,7 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 + (instancetype)eventDispatcher:(id<EVEEventDispatcher>)target;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
-- (instancetype)init:(id<EVEEventDispatcher>)target;
+- (instancetype)initWithDispatcher:(id<EVEEventDispatcher>)target;
 
 
 @end
