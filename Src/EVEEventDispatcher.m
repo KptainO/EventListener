@@ -56,13 +56,29 @@
 
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture priority:(NSUInteger)priority {
    id<EVEEventListener> listener = [[EVEEventListenerSelector alloc] initWithSelector:selector useCapture:useCapture];
-   EVEOrderedList *listeners = [self _listenersContainer:type];
 
-   listener.priority = priority;
+    [self addEventListener:listener type:type priority:priority];
+}
 
-   // EVEOrderedList will take care of avoiding duplicates
-   // and keep listeners ordered by priority
-   [listeners add:listener];
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture {
+    [self addEventListener:type block:block useCapture:useCapture priority:0];
+}
+
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture priority:(NSUInteger)priority {
+    id<EVEEventListener> listener = [[EVEEventListenerLambda alloc] initWithBlock:block useCapture:useCapture];
+
+    [self addEventListener:listener type:type priority:priority];
+}
+
+- (void)addEventListener:(id<EVEEventListener>)listener type:(NSString *)type priority:(NSUInteger)priority {
+    EVEOrderedList *listeners = [self _listenersContainer:type];
+
+    listener.priority = priority;
+
+    // EVEOrderedList will take care of avoiding duplicates
+    // and keep listeners ordered by priority
+    [listeners add:listener];
+
 }
 
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector {

@@ -31,7 +31,8 @@
 #pragma mark - Public methods
 
 - (void)handleEvent:(EVEEvent *)event {
-   self.block(event);
+   if (self.block)
+       self.block(event);
 }
 
 - (NSUInteger)hash {

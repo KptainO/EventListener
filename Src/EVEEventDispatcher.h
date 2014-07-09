@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EVEEventListenerLambda.h"
+
 @class EVEEvent;
 
 typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
@@ -17,6 +19,9 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 - (void)addEventListener:(NSString *)type listener:(SEL)selector;
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture;
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture priority:(NSUInteger)priority;
+
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture;
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture priority:(NSUInteger)priority;
 
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector;
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture;
