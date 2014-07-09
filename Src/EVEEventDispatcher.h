@@ -14,10 +14,25 @@
 
 typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 
+/**
+ * Base protocol for handling/dispatching events
+ * Take a look at:
+ * - http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/EventDispatcher.html
+ * - http://www.w3.org/TR/DOM-Level-3-Events/
+ * for more advanced information
+ */
 @protocol EVEEventDispatcher<NSObject>
 
 - (void)addEventListener:(NSString *)type listener:(SEL)selector;
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture;
+
+/**
+ * Register an event listener object on the EventDispatcher so that the listener receive notifications of an event
+ * @param type the event type/name. Only event notifications named type will be listened to
+ * @param listener a selector method that will process the event.
+ * @param useCapture determine whether the listener wok on the capture/target phase or target/bubbling phase 
+ * @param priority the event listener priority. The higher the number, the higher the priority
+ */
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture priority:(NSUInteger)priority;
 
 - (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture;
@@ -32,10 +47,21 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 
 @end
 
+/**
+ * Base class for all classes that dispatch events. You can inherit from this class or use it as composition when
+ * necessary. See UIKit categories to see how this work
+ *
+ * The target is an important element as it define the element which will be reachable by events and which will
+ * define listener methods/blocks
+ */
 @interface EVEEventDispatcher : NSObject<EVEEventDispatcher>
 
 + (id)new UNAVAILABLE_ATTRIBUTE;
 + (instancetype)new:(id<EVEEventDispatcher>)target;
+/**
+ * @param target the dispatcher target which will define listener methods
+ * when receiving event the event.currentTarget property will be set to target
+ */
 + (instancetype)eventDispatcher:(id<EVEEventDispatcher>)target;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
