@@ -33,6 +33,14 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
    [self.eventDispatcher addEventListener:type listener:selector useCapture:useCapture priority:priority];
 }
 
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture {
+    [self.eventDispatcher addEventListener:type block:block useCapture:useCapture];
+}
+
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture priority:(NSUInteger)priority {
+    [self.eventDispatcher addEventListener:type block:block useCapture:useCapture priority:priority];
+}
+
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector {
    [self.eventDispatcher addEventListener:type listener:selector];
 }
