@@ -8,7 +8,7 @@ EventListener is an Obsever design pattern implementation with an API very simil
 - Event default behaviour cancellation
 - Event propagation cancellation
 
-More information on DOM events [http://www.w3.org/TR/DOM-Level-3-Events/](here)
+More information on DOM events [here](http://www.w3.org/TR/DOM-Level-3-Events/)
 
 ## What's wrong with NSNotification?
 
