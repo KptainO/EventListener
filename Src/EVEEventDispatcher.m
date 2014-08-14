@@ -81,6 +81,16 @@
 
 }
 
+- (void)removeEventListener:(NSString *)type {
+    [self _removeContainer:type];
+}
+
+- (void)removeEventListener:(NSString *)type useCapture:(BOOL)capture {
+    EVEOrderedList *listeners = [self _listenersContainer:type];
+
+    [listeners filter:^BOOL(id<EVEEventListener> listener) { return listener.useCapture != capture; }];
+}
+
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector {
    [self removeEventListener:type listener:selector useCapture:NO];
 }
@@ -189,6 +199,10 @@
    }
 
    return container;
+}
+
+- (void)_removeContainer:(NSString *)type {
+    [self.listeners_ removeObjectForKey:type];
 }
 
 @end

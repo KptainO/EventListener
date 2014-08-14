@@ -48,6 +48,10 @@ NSString *const UIViewEventDispatcherAttrKey;
    [self.eventDispatcher removeEventListener:type listener:selector useCapture:useCapture];
 }
 
+- (void)removeEventListener:(NSString *)type useCapture:(BOOL)capture {
+    [self.eventDispatcher removeEventListener:type useCapture:capture];
+}
+
 - (void)dispatchEvent:(EVEEvent *)event {
    [self.eventDispatcher dispatchEvent:event];
 }

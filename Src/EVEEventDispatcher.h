@@ -38,9 +38,24 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 - (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture;
 - (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture priority:(NSUInteger)priority;
 
+/**
+ * Remove all registered event listeners on capture or bubbling phase
+ * @param type the event type
+ * @param useCapture if set to YES events from capture phase will be removed. Otherwise those from bubbling phase will be
+ */
+- (void)removeEventListener:(NSString *)type useCapture:(BOOL)capture;
+
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector;
+/**
+ * @param useCapture if set to YES events from capture phase will be removed. Otherwise those from bubbling phase will be
+ */
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture;
 
+/**
+ * Main method from EVEEventDispatcher: dispatch an event into the event flow. The event target is the object upon which the dispatchEvent() method is called
+ *
+ * @param event
+ */
 - (void)dispatchEvent:(EVEEvent *)event;
 
 - (id<EVEEventDispatcher>)nextDispatcher;

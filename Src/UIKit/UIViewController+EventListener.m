@@ -45,6 +45,10 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
    [self.eventDispatcher addEventListener:type listener:selector];
 }
 
+- (void)removeEventListener:(NSString *)type useCapture:(BOOL)capture {
+    [self.eventDispatcher removeEventListener:type useCapture:capture];
+}
+
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture {
    [self.eventDispatcher removeEventListener:type listener:selector useCapture:useCapture];
 }

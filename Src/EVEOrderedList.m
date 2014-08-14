@@ -55,6 +55,16 @@
    return [self _search:object options:0] != NSNotFound;
 }
 
+- (void)filter:(EVEOrderedListFilterBlock)filter {
+    if (!filter)
+        return;
+
+    [self.list_ filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
+    {
+        return filter(evaluatedObject);
+    }]];
+}
+
 - (NSUInteger)count {
    return [self.list_ count];
 }
