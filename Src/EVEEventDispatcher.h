@@ -23,7 +23,7 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
  */
 @protocol EVEEventDispatcher<NSObject>
 
-- (void)addEventListener:(NSString *)type listener:(SEL)selector;
+- (void)addEventListener:(NSString *)type listener:(SEL)selector DEPRECATED_MSG_ATTRIBUTE("use addEventListener:listener:useCapture instead");
 - (void)addEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture;
 
 /**
@@ -38,6 +38,8 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
 - (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture;
 - (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture priority:(NSUInteger)priority;
 
+- (void)removeEventListener:(NSString *)type listener:(SEL)selector DEPRECATED_MSG_ATTRIBUTE("use removeEventListener:listener:useCapture instead");
+
 /**
  * Remove all registered event listeners on capture or bubbling phase
  * @param type the event type
@@ -45,7 +47,6 @@ typedef void(^EVEEventDispatcherListener)(EVEEvent *event);
  */
 - (void)removeEventListener:(NSString *)type useCapture:(BOOL)capture;
 
-- (void)removeEventListener:(NSString *)type listener:(SEL)selector;
 /**
  * @param useCapture if set to YES events from capture phase will be removed. Otherwise those from bubbling phase will be
  */
