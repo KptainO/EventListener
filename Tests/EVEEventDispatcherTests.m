@@ -236,7 +236,7 @@ describe(@"remove", ^{
         SEL selector = NSSelectorFromString(@"selector");
 
         [dispatcher addEventListener:event.type listener:selector useCapture:YES];
-        [dispatcher removeEventListener:event.type listener:selector];
+        [dispatcher removeEventListener:event.type listener:selector useCapture:YES];
 
         [[listener shouldNot] receive:selector];
 

@@ -35,6 +35,20 @@
        self.block(event);
 }
 
+- (BOOL)isEqual:(id)object {
+    if (self == object)
+        return YES;
+
+    if (![object isKindOfClass:[EVEEventListenerLambda class]])
+        return NO;
+
+    return [self isEqualToListener:object];
+}
+
+- (BOOL)isEqualToListener:(EVEEventListenerLambda *)listener {
+    return (self.useCapture == listener.useCapture) && ([self.block hash] == [listener.block hash]);
+}
+
 - (NSUInteger)hash {
    return [self.block hash] ^ (self.useCapture ? 1234 : 5678);
 }
