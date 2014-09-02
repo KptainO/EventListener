@@ -39,8 +39,22 @@
 #pragma clang diagnostic pop
 }
 
+- (BOOL)isEqual:(id)object {
+    if (self == object)
+        return YES;
+
+    if (![object isKindOfClass:[EVEEventListenerSelector class]])
+        return NO;
+
+    return [self isEqualToListener:object];
+}
+
+- (BOOL)isEqualToListener:(EVEEventListenerSelector *)listener {
+    return (self.useCapture == listener.useCapture) && (self.selector == listener.selector);
+}
+
 - (NSUInteger)hash {
-   return [NSStringFromSelector(self.selector) hash] ^ self.useCapture ? 1234 : 5678;
+   return [NSStringFromSelector(self.selector) hash] ^ (self.useCapture ? 1234 : 5678);
 }
 
 #pragma mark - Protected methods

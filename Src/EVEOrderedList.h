@@ -6,6 +6,8 @@
 // file that was distributed with this source code
 //
 
+typedef BOOL(^EVEOrderedListFilterBlock)(id);
+
 /**
  * Ordered List wrapping a NSArray object
  * This is used internally by EventListener project and not exposed to end-user
@@ -20,6 +22,7 @@
 
 - (void)add:(id)object;
 - (void)remove:(id)object;
+- (void)filter:(EVEOrderedListFilterBlock)filter;
 - (BOOL)contains:(id)object;
 
 - (NSUInteger)count;

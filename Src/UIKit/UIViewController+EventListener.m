@@ -33,8 +33,20 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
    [self.eventDispatcher addEventListener:type listener:selector useCapture:useCapture priority:priority];
 }
 
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture {
+    [self.eventDispatcher addEventListener:type block:block useCapture:useCapture];
+}
+
+- (void)addEventListener:(NSString *)type block:(EVEEventListenerBlock)block useCapture:(BOOL)useCapture priority:(NSUInteger)priority {
+    [self.eventDispatcher addEventListener:type block:block useCapture:useCapture priority:priority];
+}
+
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector {
    [self.eventDispatcher addEventListener:type listener:selector];
+}
+
+- (void)removeEventListener:(NSString *)type useCapture:(BOOL)capture {
+    [self.eventDispatcher removeEventListener:type useCapture:capture];
 }
 
 - (void)removeEventListener:(NSString *)type listener:(SEL)selector useCapture:(BOOL)useCapture {
@@ -46,6 +58,12 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
 }
 
 - (id<EVEEventDispatcher>)nextDispatcher {
+    // Even though the presenting view controller might not be the parent into DOM
+    // It should be in term of logic
+    // So add it into the dispatcher chain
+    if (self.presentingViewController)
+        return self.presentingViewController;
+
    return (id<EVEEventDispatcher>)self.view.superview;
 }
 

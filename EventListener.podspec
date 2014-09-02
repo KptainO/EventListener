@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "EventListener"
-  s.version               = "1.0"
+  s.version               = "1.1.0"
   s.source                = { :git => "https://github.com/KptainO/EventListener.git", :tag => s.version.to_s }
 
   s.summary		  = "Event-Listener DOM API for iOS"

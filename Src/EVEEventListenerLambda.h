@@ -10,10 +10,14 @@
 
 typedef void(^EVEEventListenerBlock)(EVEEvent *event);
 
+/**
+ * A block based listener
+ */
 @interface EVEEventListenerLambda : NSObject<EVEEventListener>
 
 @property(nonatomic, assign)NSUInteger                      priority;
 @property(nonatomic, assign, readonly)BOOL                  useCapture;
+/// the block which will be called when listener is triggered
 @property(nonatomic, copy, readonly)EVEEventListenerBlock   block;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
