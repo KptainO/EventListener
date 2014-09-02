@@ -13,23 +13,20 @@
 
 SPEC_BEGIN(EVEEventDispatcherTests)
 
-__block EVEEventDispatcher             *dispatcher;
-__block NSObject<EVEEventDispatcher>   *dispatcherTarget;
+__block EVEEventDispatcher              *dispatcher;
+__block NSObject<EVEEventDispatcher>    *dispatcherTarget;
+__block EVEEvent                        *event;
 
 beforeEach (^{
-   dispatcherTarget = [KWMock mockForProtocol:@protocol(EVEEventDispatcher)];
-   dispatcher = [EVEEventDispatcher new:dispatcherTarget];
+    event = [EVEEvent new];
+    dispatcherTarget = [KWMock mockForProtocol:@protocol(EVEEventDispatcher)];
+    dispatcher = [EVEEventDispatcher new:dispatcherTarget];
 
-   [dispatcherTarget stub:@selector(nextDispatcher) andReturn:nil];
+    [dispatcherTarget stub:@selector(nextDispatcher) andReturn:nil];
+    [event stub:@selector(type) andReturn:@"eventName"];
 });
 
 describe(@"dispatch", ^{
-   __block EVEEvent *event;
-
-   beforeEach(^{
-       event = [EVEEvent new];
-       [event stub:@selector(type) andReturn:@"eventName"];
-   });
 
    it(@"should retrieve dispatcher chain", ^{
       NSObject<EVEEventDispatcher> *parentDispatcher = [KWMock mockForProtocol:@protocol(EVEEventDispatcher)];
@@ -231,6 +228,20 @@ describe(@"dispatch", ^{
          [[theValue(event.eventPhase) should] equal:theValue(EVEEventPhaseNone)];
       });
    });
+});
+
+describe(@"remove", ^{
+    it(@"remove listener should not be called", ^{
+        NSObject<EVEEventListener>  *listener = [KWMock mockForProtocol:@protocol(EVEEventListener)];
+        SEL selector = NSSelectorFromString(@"selector");
+
+        [dispatcher addEventListener:event.type listener:selector useCapture:YES];
+        [dispatcher removeEventListener:event.type listener:selector];
+
+        [[listener shouldNot] receive:selector];
+
+        [dispatcher dispatchEvent:event];
+    });
 });
 
 SPEC_END
