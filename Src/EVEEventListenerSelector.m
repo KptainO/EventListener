@@ -40,7 +40,7 @@
 }
 
 - (NSUInteger)hash {
-   return [NSStringFromSelector(self.selector) hash] ^ self.useCapture ? 1234 : 5678;
+   return [NSStringFromSelector(self.selector) hash] ^ (self.useCapture ? 1234 : 5678);
 }
 
 #pragma mark - Protected methods

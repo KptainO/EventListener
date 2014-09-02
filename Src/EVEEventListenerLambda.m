@@ -36,7 +36,7 @@
 }
 
 - (NSUInteger)hash {
-   return [self.block hash] ^ self.useCapture ? 1234 : 5678;
+   return [self.block hash] ^ (self.useCapture ? 1234 : 5678);
 }
 
 #pragma mark - Protected methods
