@@ -58,13 +58,17 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
 }
 
 - (id<EVEEventDispatcher>)nextDispatcher {
+    
+    if (self.parentViewController)
+        return self.parentViewController;
+    
     // Even though the presenting view controller might not be the parent into DOM
     // It should be in term of logic
     // So add it into the dispatcher chain
     if (self.presentingViewController)
         return self.presentingViewController;
-
-   return (id<EVEEventDispatcher>)self.view.superview;
+    
+    return (id<EVEEventDispatcher>)self.view.superview;
 }
 
 #pragma mark - Private methods
