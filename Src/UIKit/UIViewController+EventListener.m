@@ -58,7 +58,7 @@ NSString *const UIViewControllerEventDispatcherAttrKey;
 }
 
 - (id<EVEEventDispatcher>)nextDispatcher {
-   return (id<EVEEventDispatcher>)self.view.superview;
+    return (id<EVEEventDispatcher>)self.nextResponder;
 }
 
 #pragma mark - Private methods
